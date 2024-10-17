@@ -5,6 +5,8 @@ const app = express();
 
 app.use(express.json());
 
+//all employee api
+
 app.get('/employees', async (req, res) => {
   const employees = await allGetEmployees();
   res.json({ employees });
