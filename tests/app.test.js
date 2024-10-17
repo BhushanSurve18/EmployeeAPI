@@ -56,6 +56,7 @@ describe('Controller Function tests', () => {
   });
 });
 
+
 describe('API Endpoint tests', () => {
   it('GET /employees should return all employees', async () => {
     const res = await request(server).get('/employees');
@@ -102,3 +103,4 @@ describe('API Endpoint tests', () => {
     });
   });
 });
+
