@@ -2,7 +2,6 @@ const request = require('supertest');
 const http = require('http');
 const { getAllEmployees } = require('../controllers');
 const { app } = require('../index');
-const { describe, beforeEach } = require('node:test');
 
 jest.mock('../controllers', () => ({
   ...jest.requireActual('../controllers'),
@@ -11,22 +10,22 @@ jest.mock('../controllers', () => ({
 
 let server;
 
-beforeAll((done) => {
+beforeAll(async () => {
   server = http.createServer(app);
-  server.listen(3001, done);
+  server.listen(3001);
 });
 
-afterAll((done) => {
-  server.close(done);
+afterAll(async () => {
+  server.close();
 });
 
 describe('Controller Function tests', () => {
   beforeEach(() => {
-    jest.clearAllMock();
+    jest.clearAllMocks();
   });
 
   it('should return all Employees', () => {
-    let mockEmployees = [
+    let mockedEmployees = [
       {
         employeeId: 1,
         name: 'Rahul Sharma',
@@ -49,9 +48,9 @@ describe('Controller Function tests', () => {
         roleId: 3,
       },
     ];
-    getAllEmployees.mockReturnValue(mockEmployees);
+    getAllEmployees.mockReturnValue(mockedEmployees);
     let result = getAllEmployees();
-    expect(result).toEqual(mockEmployees);
+    expect(result).toEqual(mockedEmployees);
     expect(result.length).toBe(3);
   });
 });
@@ -88,7 +87,6 @@ describe('API Endpoint tests', () => {
     });
     expect(res.body.employees.length).toBe(3);
   });
-
   it('GET /employees/details/:id should get an employee by id', async () => {
     const res = await request(server).get('/employees/details/1');
     expect(res.status).toBe(200);
@@ -102,5 +100,6 @@ describe('API Endpoint tests', () => {
       },
     });
   });
+
 });
 
